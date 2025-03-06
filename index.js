@@ -11,7 +11,6 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 //c.drawiImage('/Img/map.png') passing a sting wont work as it it not on HTML
 const image = new Image()  //const image = new Image('/Img/map.png') not recognised by api
 image.src = '/Img/map.png'
-console.log(image)
 
 //-----------------------------------------------Player----------------------------------------------
 
@@ -19,24 +18,51 @@ const playerImage = new Image()
 playerImage.src = '/Img/playerDown.png'
 
 
-image.onload = () => {  // without this the image is being called before HTML is loaded
-    c.drawImage(image, 0, -200)
-    c.drawImage(
-        playerImage,
-//  x cord for croping the player spread 
-        0,
-        0,
-        playerImage.width / 4,
-        playerImage.height,
-    
-//  Actual image that will be seen
-        265 - (playerImage.width / 4)/16 , 
-        250 - playerImage.height / 2,
-
-        playerImage.width / 4,
-        playerImage.height
-    )
+//image.onload = () => {  // without this the image is being called before HTML is loaded
+ 
+//-----------------------------------------------Animation----------------------------------------------
+//this class will be ised to the screen can move the map with the character
+class Sprite{
+    constructor({position, velocity, image}) {
+        this.position = position
+        this.image = image
+    }
+    draw(){
+        c.drawImage(this.image, 0, -200)
+    }
 }
+
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: -200
+    },
+    image: image    //  this will call image in sprint all the wal down to make a loop
+})
+
+//  creating a loop for the animation
+function animate() {
+    window.requestAnimationFrame(animate)
+    background.draw()// calls draw in sprint
+    c.drawImage(
+            playerImage,
+    //  x cord for croping the player spread 
+            0,
+            0,
+            playerImage.width / 4,
+            playerImage.height,
+        
+    //  Actual image that will be seen
+            265 - (playerImage.width / 4)/16 , 
+            250 - playerImage.height / 2,
+
+            playerImage.width / 4,
+            playerImage.height
+        )
+}
+animate()
+
+
 
 //-----------------------------------------------Player Movement----------------------------------------------
 
