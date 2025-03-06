@@ -45,5 +45,17 @@ window.addEventListener('keydown', (e) => {
         case 'w':
             console.log('press w key')
             break
+
+        case 'a':
+            console.log('press a key')
+            break
+
+        case 's':
+            console.log('press s key')
+             break
+
+        case 'd':
+            console.log('press d key')
+            break
     }
 })
