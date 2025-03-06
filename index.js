@@ -38,3 +38,12 @@ image.onload = () => {  // without this the image is being called before HTML is
     )
 }
 
+//-----------------------------------------------Player Movement----------------------------------------------
+
+window.addEventListener('keydown', (e) => {
+    switch (e.key) {
+        case 'w':
+            console.log('press w key')
+            break
+    }
+})
