@@ -40,6 +40,21 @@ const background = new Sprite({
     image: image    //  this will call image in sprint all the wal down to make a loop
 })
 
+const keys = {
+    w: {
+        pressed: false
+    },
+    a: {
+        pressed: false
+    },
+    s: {
+        pressed: false
+    },
+    d: {
+        pressed: false
+    },
+}
+
 //  creating a loop for the animation
 function animate() {
     window.requestAnimationFrame(animate)
@@ -59,6 +74,8 @@ function animate() {
             playerImage.width / 4,
             playerImage.height
         )
+    
+        if (keys.w.pressed)
 }
 animate()
 
@@ -69,19 +86,41 @@ animate()
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'w':
-            console.log('press w key')
+            keys.w.pressed = true
             break
 
         case 'a':
-            console.log('press a key')
+            keys.a.pressed = true
             break
 
         case 's':
-            console.log('press s key')
+            keys.s.pressed = true
              break
 
         case 'd':
-            console.log('press d key')
+            keys.d.pressed = true
             break
     }
+    console.log(keys)
+})
+
+window.addEventListener('keyup', (e) => {
+    switch (e.key) {
+        case 'w':
+            keys.w.pressed = false
+            break
+
+        case 'a':
+            keys.a.pressed = false
+            break
+
+        case 's':
+            keys.s.pressed = false
+             break
+
+        case 'd':
+            keys.d.pressed = false
+            break
+    }
+    console.log(keys)
 })
