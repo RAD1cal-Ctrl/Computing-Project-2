@@ -28,7 +28,7 @@ class Sprite{
         this.image = image
     }
     draw(){
-        c.drawImage(this.image, 0, -200)
+        c.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
@@ -55,6 +55,7 @@ const keys = {
     },
 }
 
+
 //  creating a loop for the animation
 function animate() {
     window.requestAnimationFrame(animate)
@@ -75,11 +76,15 @@ function animate() {
             playerImage.height
         )
     
-        if (keys.w.pressed)
+        if (keys.w.pressed && lastKey === 'w') background.position.y += 3
+        else if (keys.a.pressed && lastKey === 'a') background.position.x += 3
+        else if (keys.s.pressed && lastKey === 's') background.position.y -= 3
+        else if (keys.d.pressed && lastKey === 'd') background.position.x -= 3
+
 }
 animate()
 
-
+let lastKey = ''
 
 //-----------------------------------------------Player Movement----------------------------------------------
 
@@ -87,18 +92,22 @@ window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'w':
             keys.w.pressed = true
+            lastKey = 'w'
             break
 
         case 'a':
             keys.a.pressed = true
+            lastKey = 'a'
             break
 
         case 's':
             keys.s.pressed = true
+            lastKey = 's'
              break
 
         case 'd':
             keys.d.pressed = true
+            lastKey = 'd'
             break
     }
     console.log(keys)
