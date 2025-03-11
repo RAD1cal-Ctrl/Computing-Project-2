@@ -8,6 +8,9 @@ const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
   collisionsMap.push(collisions.slice(i, 70 + i))
 }
+
+//-----------------------------------------------Boundary----------------------------------------------
+
 class Boundary {
     static width = 48
     static height = 48 
@@ -41,7 +44,7 @@ collisionsMap.forEach((row, i) => {
     })
   })
   
-console.log(boundaries)
+//console.log(boundaries)
 
 //-----------------------------------------------MAP----------------------------------------------
 //c.drawiImage('/Img/map.png') passing a sting wont work as it it not on HTML
@@ -59,14 +62,46 @@ playerImage.src = '/Img/playerDown.png'
 //-----------------------------------------------Animation----------------------------------------------
 //this class will be ised to the screen can move the map with the character
 class Sprite{
-    constructor({position, velocity, image}) {
+    constructor({position, image, frames = {max: 1} }) {
         this.position = position
         this.image = image
+        this.frames = frames
+        
+        this.image.onload = () => {
+            this.width = this.image.width / this.frames.max
+            this.height = this.image.height
+          }          
     }
     draw(){
-        c.drawImage(this.image, this.position.x, this.position.y)
+     //   c.drawImage(this.image, this.position.x, this.position.y)
+     c.drawImage(
+        this.image,
+        0, // source x
+        0, // source y
+        this.image.width / this.frames.max,
+        this.image.height,
+        this.position.x,
+        this.position.y,
+        this.image.width / this.frames.max,
+        this.image.height
+      )
+      
     }
 }
+
+//  //  Actual image that will be seen
+//  265 - (this.image.width / 4)/16 , 
+//  250 - this.image.height / 2,
+
+const player = new Sprite({
+    position: {
+        x: 265 - (192 / 4)/16,
+        y: 250 - 68 / 2     
+    },
+    
+    image: playerImage,
+    frames: { max: 4 } // matches the constructor param "frames"
+})
 
 const background = new Sprite({
     position: {
@@ -107,22 +142,17 @@ function animate() {
   //      boundary.draw()
    // })
     testBoundary.draw()
+    player.draw()
 
-    c.drawImage(
-            playerImage,
-    //  x cord for croping the player spread 
-            0,
-            0,
-            playerImage.width / 4,
-            playerImage.height,
-        
-    //  Actual image that will be seen
-            265 - (playerImage.width / 4)/16 , 
-            250 - playerImage.height / 2,
-
-            playerImage.width / 4,
-            playerImage.height
-        )
+    if (
+        player.position.x < testBoundary.position.x + testBoundary.width &&
+        player.position.x + player.width > testBoundary.position.x &&
+        player.position.y < testBoundary.position.y + testBoundary.height &&
+        player.position.y + player.height > testBoundary.position.y
+      ) {
+        console.log('colliding')
+      }
+      
     
         if (keys.w.pressed && lastKey === 'w') {movables.forEach ((movable) => {movable.position.y += 3})}
         else if (keys.a.pressed && lastKey === 'a') {movables.forEach ((movable) => {movable.position.x += 3})}
@@ -158,7 +188,7 @@ window.addEventListener('keydown', (e) => {
             lastKey = 'd'
             break
     }
-    console.log(keys)
+   // console.log(keys)
 })
 
 window.addEventListener('keyup', (e) => {
@@ -179,5 +209,5 @@ window.addEventListener('keyup', (e) => {
             keys.d.pressed = false
             break
     }
-    console.log(keys)
+    //console.log(keys)
 })
