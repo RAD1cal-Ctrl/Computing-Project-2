@@ -38,9 +38,17 @@ image.src = '/Img/map.png'
 
 //-----------------------------------------------Player----------------------------------------------
 
-const playerImage = new Image()
-playerImage.src = '/Img/playerDown.png'
+const playerDownImage = new Image()
+playerDownImage.src = '/Img/playerDown.png'
 
+const playerUpImage = new Image()
+playerUpImage.src = '/Img/playerUp.png'
+
+const playerLeftImage = new Image()
+playerLeftImage.src = '/Img/playerLeft.png'
+
+const playerRightImage = new Image()
+playerRightImage.src = '/Img/playerRight.png'
 
 //image.onload = () => {  // without this the image is being called before HTML is loaded
  
@@ -57,8 +65,17 @@ const player = new Sprite({
         y: 250 - 68 / 2     
     },
     
-    image: playerImage,
-    frames: { max: 4 } // matches the constructor param "frames"
+    image: playerDownImage,
+    frames: { max: 4 }, // matches the constructor param "frames"
+
+    sprites: {
+        up: playerUpImage,
+        left: playerLeftImage,
+        right: playerRightImage,
+        down: playerDownImage
+
+    }
+
 })
 
 const background = new Sprite({
@@ -109,7 +126,10 @@ function animate() {
     player.draw()
 
     let moving = true
+    player.moving = false
     if (keys.w.pressed && lastKey === 'w') {
+        player.moving = true
+        player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i++){
             const boundary = boundaries[i]
             if (
@@ -128,9 +148,13 @@ function animate() {
               }
         }
         if (moving)
+            //player.moving = false
         movables.forEach ((movable) => {movable.position.y += 3})}
         
         else if (keys.a.pressed && lastKey === 'a') {
+            player.moving = true
+            player.image = player.sprites.left
+
             for (let i = 0; i < boundaries.length; i++){
                 const boundary = boundaries[i]
                 if (
@@ -149,9 +173,13 @@ function animate() {
                   }
             }
         if (moving)
+            //player.moving = false
         movables.forEach ((movable) => {movable.position.x += 3})}
         
         else if (keys.s.pressed && lastKey === 's') {
+            player.moving = true
+            player.image = player.sprites.down
+
             for (let i = 0; i < boundaries.length; i++){
                 const boundary = boundaries[i]
                 if (
@@ -170,9 +198,13 @@ function animate() {
                   }
             }
         if (moving)
+            //player.moving = false
         movables.forEach ((movable) => {movable.position.y -= 3})}
         
         else if (keys.d.pressed && lastKey === 'd') {
+            player.moving = true
+            player.image = player.sprites.right
+
             for (let i = 0; i < boundaries.length; i++){
                 const boundary = boundaries[i]
                 if (
