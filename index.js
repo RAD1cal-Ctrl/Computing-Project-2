@@ -39,16 +39,16 @@ image.src = '/Img/map.png'
 //-----------------------------------------------Player----------------------------------------------
 
 const playerDownImage = new Image()
-playerDownImage.src = '/Img/playerDown.png'
+playerDownImage.src = '/Img/down_walk_char.png'
 
 const playerUpImage = new Image()
-playerUpImage.src = '/Img/playerUp.png'
+playerUpImage.src = '/Img/up_walk_char.png'
 
 const playerLeftImage = new Image()
-playerLeftImage.src = '/Img/playerLeft.png'
+playerLeftImage.src = '/Img/left_walk_char.png'
 
 const playerRightImage = new Image()
-playerRightImage.src = '/Img/playerRight.png'
+playerRightImage.src = '/Img/right_walk_char.png'
 
 //image.onload = () => {  // without this the image is being called before HTML is loaded
  
