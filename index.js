@@ -1,8 +1,8 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-canvas.width = 1024
-canvas.height = 576
+canvas.width = 2520
+canvas.height = 670
 
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
@@ -36,6 +36,9 @@ collisionsMap.forEach((row, i) => {
 const image = new Image()  //const image = new Image('/Img/map.png') not recognised by api
 image.src = '/Img/map.png'
 
+const foregroundImage = new Image()  
+foregroundImage.src = '/Img/foregroundImages.png'
+
 //-----------------------------------------------Player----------------------------------------------
 
 const playerDownImage = new Image()
@@ -53,7 +56,9 @@ playerRightImage.src = '/Img/right_walk_char.png'
 //image.onload = () => {  // without this the image is being called before HTML is loaded
  
 //-----------------------------------------------Animation----------------------------------------------
-
+canvas.addEventListener('click', (event) => {
+    console.log(`X: ${event.clientX}, Y: ${event.clientY}`);
+});
 
 //  //  Actual image that will be seen
 //  265 - (this.image.width / 4)/16 , 
@@ -61,8 +66,8 @@ playerRightImage.src = '/Img/right_walk_char.png'
 
 const player = new Sprite({
     position: {
-        x: 265 - (192 / 4)/16,
-        y: 250 - 68 / 2     
+        x: 2200 - (192 / 4)/16,
+        y: 200 - 68 / 2     
     },
     
     image: playerDownImage,
@@ -83,7 +88,15 @@ const background = new Sprite({
         x: offset.x,
         y: offset.y
     },
-    image: image    //  this will call image in sprint all the wal down to make a loop
+    image: image    //  this will call image in sprint all the way down to make a loop
+})
+
+const foreground = new Sprite({
+    position: {
+        x: offset.x,
+        y: offset.y
+    },
+    image: foregroundImage    //  this will call foregroundImage in sprint all the wau down to make a loop
 })
 
 const keys = {
@@ -102,7 +115,7 @@ const keys = {
 }
 
 
-const movables = [background, ...boundaries]
+const movables = [background, ...boundaries, foreground]
 //  creating a loop for the animation
 
 function rectangularCollision({rectangle1, rectangle2}) {
@@ -124,6 +137,7 @@ function animate() {
        boundary.draw()
     })
     player.draw()
+    foreground.draw()
 
     let moving = true
     player.moving = false
@@ -149,7 +163,7 @@ function animate() {
         }
         if (moving)
             //player.moving = false
-        movables.forEach ((movable) => {movable.position.y += 3})}
+        movables.forEach ((movable) => {movable.position.y += 4})}
         
         else if (keys.a.pressed && lastKey === 'a') {
             player.moving = true
@@ -174,7 +188,7 @@ function animate() {
             }
         if (moving)
             //player.moving = false
-        movables.forEach ((movable) => {movable.position.x += 3})}
+        movables.forEach ((movable) => {movable.position.x += 6})}
         
         else if (keys.s.pressed && lastKey === 's') {
             player.moving = true
@@ -199,7 +213,7 @@ function animate() {
             }
         if (moving)
             //player.moving = false
-        movables.forEach ((movable) => {movable.position.y -= 3})}
+        movables.forEach ((movable) => {movable.position.y -= 4})}
         
         else if (keys.d.pressed && lastKey === 'd') {
             player.moving = true
@@ -223,7 +237,7 @@ function animate() {
                   }
             }
         if (moving)
-        movables.forEach ((movable) => {movable.position.x -= 3})}
+        movables.forEach ((movable) => {movable.position.x -= 6})}
 
 }
 animate()
