@@ -1,3 +1,5 @@
+
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
@@ -56,13 +58,49 @@ playerRightImage.src = '/Img/right_walk_char.png'
 //image.onload = () => {  // without this the image is being called before HTML is loaded
  
 //-----------------------------------------------Animation----------------------------------------------
-canvas.addEventListener('click', (event) => {
-    console.log(`X: ${event.clientX}, Y: ${event.clientY}`);
-});
+// canvas.addEventListener("click", (event) => {
+//     const rect = canvas.getBoundingClientRect();
+
+//     // Get the true game-world coordinates
+//     const worldX = event.clientX - rect.left - offset.x;
+//     const worldY = event.clientY - rect.top - offset.y;
+
+//     console.log(`World X: ${worldX}, World Y: ${worldY}`);
+// });
 
 //  //  Actual image that will be seen
 //  265 - (this.image.width / 4)/16 , 
 //  250 - this.image.height / 2,
+
+// Npc
+const npc1Image = new Image();
+npc1Image.src = "/Img/Jaden_Idle.png";
+
+const npc2Image = new Image();
+npc2Image.src = "/Img/Yassine_Idle.png"; 
+
+const npc3Image = new Image();
+npc3Image.src = "/Img/Evie_Idle.png"; 
+
+const npc1 = new Sprite({
+    position: { x: 1975, y: 820 }, 
+    image: npc1Image,
+    frames: { max: 2 } 
+});
+
+const npc2 = new Sprite({
+    position: { x: 250, y: 100 },
+    image: npc2Image,
+    frames: { max: 2 }
+});
+
+const npc3 = new Sprite({
+    position: { x: 350, y: 830 },
+    image: npc3Image,
+    frames: { max: 2 }
+});
+
+const npcs = [npc1, npc2, npc3];
 
 const player = new Sprite({
     position: {
@@ -115,7 +153,7 @@ const keys = {
 }
 
 
-const movables = [background, ...boundaries, foreground]
+const movables = [background, ...boundaries, foreground, ...npcs]
 //  creating a loop for the animation
 
 function rectangularCollision({rectangle1, rectangle2}) {
@@ -136,11 +174,28 @@ function animate() {
     boundaries.forEach(boundary => {
        boundary.draw()
     })
+
+    npcs.forEach(npc => {
+        npc.draw();
+    });
+    
+    npcs.forEach(npc => {
+        if (
+            Math.abs(player.position.x - npc.position.x) < 100 && 
+            Math.abs(player.position.y - npc.position.y) < 100
+        ) {
+            console.log("Press 'E' to interact"); 
+        }
+    });
+    
+
     player.draw()
     foreground.draw()
 
     let moving = true
     player.moving = false
+
+    //moving up
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true
         player.image = player.sprites.up
@@ -165,6 +220,7 @@ function animate() {
             //player.moving = false
         movables.forEach ((movable) => {movable.position.y += 4})}
         
+        //moving left
         else if (keys.a.pressed && lastKey === 'a') {
             player.moving = true
             player.image = player.sprites.left
@@ -190,6 +246,7 @@ function animate() {
             //player.moving = false
         movables.forEach ((movable) => {movable.position.x += 6})}
         
+        //moving down
         else if (keys.s.pressed && lastKey === 's') {
             player.moving = true
             player.image = player.sprites.down
@@ -215,6 +272,7 @@ function animate() {
             //player.moving = false
         movables.forEach ((movable) => {movable.position.y -= 4})}
         
+        //moving right
         else if (keys.d.pressed && lastKey === 'd') {
             player.moving = true
             player.image = player.sprites.right
@@ -240,6 +298,9 @@ function animate() {
         movables.forEach ((movable) => {movable.position.x -= 6})}
 
 }
+
+
+
 animate()
 
 let lastKey = ''
@@ -291,3 +352,29 @@ window.addEventListener('keyup', (e) => {
     }
     //console.log(keys)
 })
+
+window.addEventListener("keydown", (e) => {
+    if (e.key === "e") {
+        npcs.forEach(npc => {
+            if (
+                Math.abs(player.position.x - npc.position.x) < 100 && 
+                Math.abs(player.position.y - npc.position.y) < 100
+            ) {
+                startMinigame(npc);
+            }
+        });
+    }
+});
+
+function startMinigame(npc) {
+    if (npc === npc1) {
+        console.log("Starting minigame 1...");
+        // Load Jaden's game
+    } else if (npc === npc2) {
+        console.log("Starting minigame 2...");
+        // Load Yassine's game
+    } else if (npc === npc3) {
+        console.log("Starting minigame 3...");
+        // Load Evie's game
+    }
+}
