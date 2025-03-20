@@ -104,9 +104,9 @@ const npcs = [npc1, npc2, npc3];
 
 const player = new Sprite({
     position: {
-        x: 2200 - (192 / 4)/16,
-        y: 200 - 68 / 2     
-    },
+        x: 400,
+        y: 300
+      },
     
     image: playerDownImage,
     frames: { max: 4 }, // matches the constructor param "frames"
@@ -195,6 +195,8 @@ function animate() {
     let moving = true
     player.moving = false
 
+    const speed = 4
+
     //moving up
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true
@@ -218,7 +220,7 @@ function animate() {
         }
         if (moving)
             //player.moving = false
-        movables.forEach ((movable) => {movable.position.y += 4})}
+        movables.forEach ((movable) => {movable.position.y += speed})}
         
         //moving left
         else if (keys.a.pressed && lastKey === 'a') {
@@ -244,7 +246,7 @@ function animate() {
             }
         if (moving)
             //player.moving = false
-        movables.forEach ((movable) => {movable.position.x += 6})}
+        movables.forEach ((movable) => {movable.position.x += speed})}
         
         //moving down
         else if (keys.s.pressed && lastKey === 's') {
@@ -270,7 +272,7 @@ function animate() {
             }
         if (moving)
             //player.moving = false
-        movables.forEach ((movable) => {movable.position.y -= 4})}
+        movables.forEach ((movable) => {movable.position.y -= speed})}
         
         //moving right
         else if (keys.d.pressed && lastKey === 'd') {
@@ -295,7 +297,7 @@ function animate() {
                   }
             }
         if (moving)
-        movables.forEach ((movable) => {movable.position.x -= 6})}
+        movables.forEach ((movable) => {movable.position.x -= speed})}
 
 }
 
